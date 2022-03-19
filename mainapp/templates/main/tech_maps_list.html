@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}
+    Технологические карты
+{% endblock %}
+{% block content %}
+
+    <ul class="list-group list-group-numbered mt-3">
+        {% for tech_map in tech_maps %}
+            <li class="list-group-item d-flex justify-content-between">
+                <a class="px-1 link-red text-decoration-none w-100"
+                   href="{{ url_for('main.tech_map_page', tech_id=tech_map.id) }}">
+                    {{ tech_map.name }}
+                </a>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('main.tech_map_delete', tech_id=tech_map.id) }}" class="btn btn-outline-danger btn-circle">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% if current_user.is_authenticated %}
+        <div class="mt-3 text-center">
+            <a href="{{ url_for('main.add_tech_map') }}">
+                <button type="button" class="btn-red btn">
+                    Добавить PDF
+                </button>
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}
+

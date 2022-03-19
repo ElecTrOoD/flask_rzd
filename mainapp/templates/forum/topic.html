@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ topic.title }}
+{% endblock %}
+{% block content %}
+    <div class="row mt-3">
+        <div class="mb-1">
+            <a href="{{ url_for('forum.categories') }}" class="link-red">Форум</a> /
+            <a href="{{ url_for('forum.topics', category_title=topic.category.title) }}"
+               class="link-red">{{ topic.category.title }}</a>
+            / {{ topic.title }}
+        </div>
+        <div class="col-md-12">
+            <div class="card mb-3 rounded-3">
+                {% for message in topic.messages %}
+                    <div class="card-body py-3 border-bottom border-danger">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div>
+                                    {{ message.text }}
+                                </div>
+                            </div>
+                            <div class="d-md-block col-sm-2 make-margin">
+                                <div class="media d-flex col align-items-center">
+                                    <img
+                                            src="{{ url_for('users.get_photo',
+                                            filename=message.author.photo)
+                                            if message.author.photo else
+                                            url_for('static', filename='images/default_user_pic.jpg') }}" alt=""
+                                            class="d-block rounded-circle">
+                                    <div class="flex-truncate ms-2">
+                                        <div class="row d-flex text-muted small text-truncate">
+                                            <div class="col-7">
+                                                <div class="text-muted">
+                                                    {{ message.author.first_name }} {{ message.author.last_name }}
+                                                </div>
+                                                <div class="datetime"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+{#                                    <div class="ms-3">#}
+{#                                        <a href="{{ url_for('forum.delete_message', message_id=message.id) }}"#}
+{#                                           class="btn btn-circle btn-outline-danger">#}
+{#                                            <i class="fa fa-trash"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <form name="form" method="post"
+                      class="navbar chat_bar bg-white navbar-expand-sm justify-content-between">
+                    {{ form.csrf_token }}
+                    {{ form.text(class="chat-form-control form-control message flex-fill") }}
+                    {{ form.author_id(type="hidden") }}
+                    {{ form.topic_id(type="hidden") }}
+                    {{ form.submit(class='btn') }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+    <script>
+        let dates = {{ dates|safe if dates else 'null' }};
+        let local_dates = []
+        let objects = $(".datetime");
+
+        if (dates) {
+            for (let date of dates) {
+                local_dates.push(normalize_date(date))
+            }
+            for (let i = 0; i < local_dates.length; i++) {
+                $(objects[i]).text(moment(local_dates[i], 'DD.MM.YY, HH:mm:SS').fromNow())
+            }
+        }
+    </script>
+{% endblock %}
+
+

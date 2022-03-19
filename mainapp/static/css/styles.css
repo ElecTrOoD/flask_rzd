@@ -1,0 +1,268 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://fabrics-jab.ru/img/products/1-1283-070-article.jpg');
+}
+
+.container-map {
+    width: 100%;
+    height: 94vh;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+::-webkit-scrollbar {
+    width: 10px
+}
+
+::-webkit-scrollbar-track {
+    background: #eee
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555
+}
+
+
+.wrapper {
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat {
+    height: 85vh;
+    width: -webkit-fill-available;
+    background-color: #eee;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 6px 0 0 0
+}
+
+.scroll {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    height: 80vh;
+    width: 100%
+}
+
+.name {
+    font-size: 14px
+}
+
+.msg {
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: 500;
+    color: #3e3c3c
+}
+
+.between {
+    font-size: 15px;
+    font-weight: 500;
+    padding-bottom: 20px;
+    color: #a09e9e
+}
+
+.chat_bar {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+}
+
+
+.chat-form-control {
+    font-size: 12px;
+    font-weight: 400;
+    width: 230px;
+    height: 30px;
+    border: none;
+}
+
+.chat-form-control:focus {
+    box-shadow: none;
+    overflow: hidden;
+    border: none
+}
+
+.chat-form-control:focus {
+    box-shadow: none !important
+}
+
+.trash-icon {
+    position: absolute;
+    right: 2%;
+    top: 2%;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid transparent;
+    border-radius: 0;
+}
+
+.btn-circle.btn-lg, .btn-group-lg > .btn-circle.btn {
+    width: 50px;
+    height: 50px;
+    padding: 14px 15px;
+    font-size: 18px;
+    line-height: 23px;
+}
+
+.text-muted {
+    color: #8898aa !important;
+}
+
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+
+.btn-circle {
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+}
+
+.user-table tbody tr .category-select {
+    max-width: 150px;
+    border-radius: 20px;
+}
+
+.video {
+    max-width: 100%;
+    height: auto;
+}
+
+.text-red {
+    color: #e21a1a !important;
+}
+
+.link-red {
+    color: #21283e !important;
+}
+
+.link-red:hover {
+    color: #e21a1a !important;
+    transition: 0.2s ease-in-out
+}
+
+.btn-red {
+    color: #fff;
+    background-color: #e21a1a;
+    cursor: pointer;
+}
+
+.btn-red:hover {
+    color: #fff;
+    background-color: #BE1C1C;
+}
+
+.thumbnail {
+    width: auto;
+    height: 80px;
+}
+
+.box {
+    position: relative;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.box img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: auto;
+    object-fit: cover;
+}
+
+.center-screen {
+    font-size: 40px;
+    font-weight: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 90vh;
+}
+
+@media screen and (max-width: 1200px) {
+    .make-margin {
+        margin-top: 15px;
+    }
+}
+
+.card {
+    box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+    border-width: 0;
+    transition: all .2s
+}
+
+.card-header:first-child {
+    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    border-bottom-width: 1px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: .625rem;
+    height: 3.5rem;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(26, 54, 126, 0.125)
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.25rem
+}
+
+.flex-truncate {
+    min-width: 0 !important
+}
+
+.d-block {
+    display: block !important
+}
+
+a {
+    color: #E91E63;
+    text-decoration: none !important;
+    background-color: transparent
+}
+
+.media img {
+    width: 40px;
+    height: auto
+}

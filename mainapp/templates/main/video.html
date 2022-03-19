@@ -1,0 +1,13 @@
+{% extends  'base.html' %}
+
+{% block title %}
+    {{ video_tutorial.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="ratio ratio-16x9">
+        <iframe class="ratio" src="{{ video_tutorial.link }}" title="{{ video_tutorial.name }}" allowfullscreen
+                allow="clipboard-write"
+                webkitAllowFullScreen mozallowfullscreen></iframe>
+    </div>
+{% endblock %}

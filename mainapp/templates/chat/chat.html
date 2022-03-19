@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Чат
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper">
+        <div class="chat mt-3">
+            <a class="fa fa-lg fa-trash trash-icon link-red" href=""
+               onclick="delete_messages()"></a>
+            <div class="px-2 scroll">
+            </div>
+            <form action="" name="myform" method="post"
+                  class="navbar chat_bar bg-white navbar-expand-sm justify-content-between">
+                <input hidden type="text" class="username" value="{{ current_user.username }}"/>
+{#                <input required type="text" name="text" class="chat-form-control form-control message flex-fill"#}
+{#                       style="border: none; font-size: 14px" autocomplete="off" placeholder="Напишите сообщение...">#}
+                <textarea required type="text" name="text" class="chat-form-control form-control message flex-fill" id="text"
+                          style="border: none; font-size: 16px" autocomplete="off" placeholder="Напишите сообщение..."></textarea>
+                <input type='submit' class='btn'>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

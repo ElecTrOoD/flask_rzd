@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+    Карта
+{% endblock %}
+
+{% block content %}
+    <div class="container-map">
+        <div id="map"><div class="center-screen">Map loading...</div></div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABtN8sBZ1kGYeGJMKiKfgiQ-pww6XPS7Y&callback=initMap&v=weekly"
+            async
+    ></script>
+    <script type="text/javascript">
+        let users = {{ map_info|safe if map_info else 'null'}};
+    </script>
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{% endblock %}

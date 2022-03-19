@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}
+    Пользователи
+{% endblock %}
+{% block content %}
+    <div class="mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase mb-0">Список пользователей</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table no-wrap user-table mb-0" style="word-wrap:break-word; ">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="border-0 text-uppercase font-medium">#</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium"></th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Имя</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium">Последняя активность</th>
+                                <th scope="col" class="border-0 text-uppercase font-medium"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td class="col-1">
+                                        <div class="box">
+                                            <img src="{{ url_for('users.get_photo', filename=user.photo)
+                                            if user.photo else url_for('static', filename='images/default_user_pic.jpg') }}"
+                                                 alt="...">
+                                        </div>
+                                    </td>
+                                    <td style="word-wrap: break-word">
+                                        <h5 class="font-monospace mb-0">{{ user.first_name }} {{ user.last_name }}</h5>
+                                        <span class="text-muted">{{ user.username }}</span><br>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted datetime"></span><br>
+                                    </td>
+                                    <td>
+                                        {% if user.geo_lat %}
+                                            <a href="{{ url_for('map.map_page', user_id=user.id) }}"
+                                               class="btn btn-circle btn-outline-success">
+                                                <i class="fa fa-map-marker"></i>
+                                            </a>
+                                        {% endif %}
+                                        {% if current_user.is_authenticated %}
+                                            <a href="{{ url_for('users.user_delete', user_id=user.id) }}"
+                                               class="btn btn-circle btn-outline-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        let dates = {{ dates|safe if dates else 'null' }};
+        let objects = $(".datetime");
+
+        if (dates) {
+            for (let i = 0; i < dates.length; i++) {
+                $(objects[i]).text(normalize_date(dates[i]))
+            }
+        }
+    </script>
+{% endblock %}

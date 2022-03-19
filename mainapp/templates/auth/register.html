@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% from 'macro/formhelpers.html' import render_field %}
+
+{% block title %}
+    Регистрация
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            {% if errors %}
+                {% for error in errors %}
+                    <div class="alert alert-danger mt-2" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form class="row g-3 mt-5" method="post" enctype=multipart/form-data>
+                {{ form.csrf_token }}
+                {% for field in ['username', 'first_name', 'last_name', 'photo', 'password', 'password_confirm'] %}
+                    {{ render_field(form[field]) }}
+                {% endfor %}
+                {{ form.submit(class='btn btn-red') }}
+            </form>
+        </div>
+    </div>
+{% endblock %}

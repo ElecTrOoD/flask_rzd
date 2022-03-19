@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+    Обучающие видео
+{% endblock %}
+{% block content %}
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+        {% for video in videos %}
+            <div class="col position-relative">
+                <a class="text-decoration-none link-red" href="{{ url_for('main.video_tutorial_page', video_id=video.id) }}">
+                    <div class="card h-100">
+                        <img src="{{ video.thumbnail_link }}"
+                             class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text text-center">{{ video.name }}</p>
+                        </div>
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('main.video_tutorial_delete', video_id=video.id) }}"
+                               class="btn btn-danger btn-circle trash-icon">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {% if current_user.is_authenticated %}
+        <div class="mt-3 pb-3 text-center">
+            <a href="{{ url_for('main.add_video_tutorial') }}">
+                <button type="button" class="btn-red btn">
+                    Добавить видео
+                </button>
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}
+

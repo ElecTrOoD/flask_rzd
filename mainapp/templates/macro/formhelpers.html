@@ -1,0 +1,27 @@
+{% macro render_field(field) %}
+    {% if field.type == 'FileField' %}
+        <div class="mb-3">
+            {{ field.label(class='form-label') }}
+            {{ field(class='form-control' + (' is-invalid' if field.errors else ''), placeholder=field.label.text)|safe }}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="form-floating">
+            {{ field(class='form-control' + (' is-invalid' if field.errors else ''), placeholder=field.label.text)|safe }}
+            {{ field.label }}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
