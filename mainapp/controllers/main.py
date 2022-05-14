@@ -30,14 +30,12 @@ def video_tutorials():
 
 
 @main.route('/techmap/<int:tech_id>')
-@login_required
 def tech_map_page(tech_id):
     tech_map = TechMap.query.get(tech_id)
     return send_from_directory(UPLOADED_PDF_DEST, tech_map.pdf)
 
 
 @main.route('/video/<int:video_id>')
-@login_required
 def video_tutorial_page(video_id):
     video_tutorial = VideoTutorial.query.get(video_id)
     return render_template('main/video.html', video_tutorial=video_tutorial)
@@ -138,9 +136,7 @@ def qrcode():
 
 @main.route('/qrcode', methods=['POST'])
 def qrcode_post():
-    print()
     form = QRCodeForm()
-    errors = []
     if form.validate_on_submit():
         return send_file(
             qr.qrcode(form.link.data, mode='raw', box_size=10, border=2, error_correction='H',

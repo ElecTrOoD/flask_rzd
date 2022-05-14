@@ -17,7 +17,7 @@ class UserRegisterForm(FlaskForm):
                                         validators.EqualTo('password_confirm',
                                                            message='Пароли должны совпадать')])
     password_confirm = PasswordField('Потдвердите пароль', [validators.DataRequired(), validators.length(1, 25)])
-    submit = SubmitField('Зарегестрироваться')
+    submit = SubmitField('Зарегистрироваться')
 
 
 class UserLoginForm(FlaskForm):

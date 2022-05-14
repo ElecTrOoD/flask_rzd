@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from datetime import timedelta
+
+from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from flask_login import logout_user, login_user, login_required, current_user
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -8,6 +10,12 @@ from mainapp.forms.user import UserRegisterForm, UserLoginForm, photo
 from mainapp.models import User
 
 auth = Blueprint('auth', __name__, static_folder='../static')
+
+
+@auth.before_request
+def before_request():
+    session.permanent = True
+    auth.permanent_session_lifetime = timedelta(days=30)
 
 
 @auth.route('/login', methods=('GET',))
