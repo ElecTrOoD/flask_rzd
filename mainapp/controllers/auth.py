@@ -1,3 +1,4 @@
+# импортируем зависимости
 from datetime import timedelta
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
@@ -9,15 +10,19 @@ from mainapp.extensions import db
 from mainapp.forms.user import UserRegisterForm, UserLoginForm, photo
 from mainapp.models import User
 
+# создаем и конфигурируем экземпляр "чертежа" приложения авторизации
 auth = Blueprint('auth', __name__, static_folder='../static')
 
 
+# контроллер продливающий сессию пользователя при каждом новом запросе
 @auth.before_request
 def before_request():
     session.permanent = True
     auth.permanent_session_lifetime = timedelta(days=30)
 
 
+# контроллер авторизации,  срабатывает при GET запросе на страницу авторизации. Отдаёт страницу авторизации.
+# Если пользователь уже авторизован - перенаправляет на главную страницу
 @auth.route('/login', methods=('GET',))
 def login():
     if current_user.is_authenticated:
@@ -31,6 +36,8 @@ def login():
     )
 
 
+# контроллер авторизации, срабатывает при POST запросе на страницу авторизации.
+# Если отправленные пользователем данные валидны - авторзует пользователя, иначе информирует пользователя о неверных данных
 @auth.route('/login', methods=('POST',))
 def login_post():
     form = UserLoginForm(request.form)
@@ -44,6 +51,8 @@ def login_post():
     return redirect(url_for('main.tech_maps'))
 
 
+# контроллер регистрации, срабатывает при GET запросе на страницу регистрации. Отдаёт страницу регистрации.
+# Если пользователь уже авторизован - перенаправляет на главную страницу
 @auth.route('/register', methods=['GET'])
 def register():
     if current_user.is_authenticated:
@@ -54,11 +63,13 @@ def register():
     return render_template('auth/register.html', form=form)
 
 
+# контроллер регистрации, срабатывает при POST запросе на страницу регистрации.
+# Если отправленные пользователем данные валидны и такой пользователь ещё не зарегистрирован -
+# создаёт новый объект пользователя, сохраняет запись в базе данных и авторизует пользователя, иначе информирует его об ошибке
 @auth.route('/register', methods=['POST'])
 def register_post():
     form = UserRegisterForm(request.form)
     errors = []
-    req = request
     if form.validate_on_submit():
         if User.query.filter_by(username=form.username.data).count():
             form.username.errors.append('Имя пользователя уже занято')
@@ -89,6 +100,7 @@ def register_post():
         return render_template('auth/register.html', form=form)
 
 
+# контроллер деавторизующий пользователя
 @auth.route('/logout')
 @login_required
 def logout():

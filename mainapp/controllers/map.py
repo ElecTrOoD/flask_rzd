@@ -1,11 +1,15 @@
+# импортируем зависимости
 from flask import Blueprint, render_template
 from flask_login import login_required
 
 from mainapp.models import User
 
+# создаем и конфигурируем экземпляр "чертежа" приложения карты
 map_c = Blueprint('map', __name__, url_prefix='/map', static_folder='../static')
 
 
+# контроллер страницы карты. При обычном запросе возвращает карту с актуальными метками всех пользователей.
+# Если в запросе передаётся ID конкретного пользователя, то возвращает карту с меткой только этого пользователя
 @map_c.route('/')
 @map_c.route('/<int:user_id>')
 @login_required

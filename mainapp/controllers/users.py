@@ -3,7 +3,7 @@ import os
 from flask import Blueprint, render_template, redirect, url_for, send_from_directory
 from flask_login import login_required
 
-from mainapp.config import UPLOADED_PHOTO_DEST, UPLOADED_PDF_DEST
+from mainapp.config import UPLOADED_PHOTO_DEST
 from mainapp.extensions import db
 from mainapp.models import User
 

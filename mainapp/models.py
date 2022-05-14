@@ -1,3 +1,4 @@
+# Импортируем все зависимости
 import re
 from datetime import datetime
 
@@ -7,6 +8,7 @@ from flask_login import UserMixin
 from mainapp.app import db
 
 
+# класс модели пользователя
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -30,6 +32,7 @@ class User(db.Model, UserMixin):
         self.photo = photo
         self.password = password
 
+    # метод сериализации данных для карты
     def get_info_for_map(self):
         return {'username': self.username,
                 'first_name': self.first_name,
@@ -39,6 +42,7 @@ class User(db.Model, UserMixin):
                 'geo_updated_at': self.geo_updated_at.strftime('%Y-%m-%dT%H:%M:%SZ')}
 
 
+# класс модели технологической карты
 class TechMap(db.Model):
     __tablename__ = 'techmaps'
 
@@ -47,6 +51,7 @@ class TechMap(db.Model):
     pdf = db.Column(db.String(255), unique=True)
 
 
+# класс модели обучающего видео
 class VideoTutorial(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True)
@@ -58,6 +63,7 @@ class VideoTutorial(db.Model):
         self.link = self.get_embed_link(link)
         self.thumbnail_link = self.get_thumbnail_link(link)
 
+    # метод получения ссылки на превью видео
     @staticmethod
     def get_thumbnail_link(value):
         if 'rutube' in value:
@@ -72,6 +78,7 @@ class VideoTutorial(db.Model):
             video_id = re.search('be/+([\w\d]*)', value)[1]
             return f'https://img.youtube.com/vi/{video_id}/0.jpg'
 
+    # метод получения встраиваемой ссылки
     @staticmethod
     def get_embed_link(value):
         rutube = 'https://rutube.ru/play/embed/'
@@ -87,6 +94,7 @@ class VideoTutorial(db.Model):
             return f'{youtube}{new_val}'
 
 
+# класс модели сообщения в чате
 class ChatMessage(db.Model):
     __tablename__ = 'messages'
 
@@ -95,9 +103,11 @@ class ChatMessage(db.Model):
     text = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow())
 
+    # метод сериализации данных в словарь
     def to_dict(self):
         return {'sender': self.sender, 'text': self.text, 'created_at': self.created_at.strftime('%Y-%m-%dT%H:%M:%SZ')}
 
+    # метод получения последних 100 сообщений
     @classmethod
     def get_last_messages(cls):
         messages = cls.query.all()
@@ -105,6 +115,7 @@ class ChatMessage(db.Model):
                 for x in messages[-100:]]
 
 
+# класс модели категории форума
 class Category(db.Model):
     __tablename__ = 'categories'
 
@@ -118,10 +129,12 @@ class Category(db.Model):
         self.title = title
         self.description = description
 
+    # метод получения даты и времени последнего сообщения
     def get_dates(self):
         return [x.messages[-1].created_at.strftime('%Y-%m-%dT%H:%M:%SZ') for x in self.topics]
 
 
+# класс модели темы в категории
 class Topic(db.Model):
     __tablename__ = 'topics'
 
@@ -141,10 +154,12 @@ class Topic(db.Model):
         self.category_id = category_id
         self.author_id = author_id
 
+    # метод получения даты и времени последнего сообщения
     def get_dates(self):
         return [x.created_at.strftime('%Y-%m-%dT%H:%M:%SZ') for x in self.messages]
 
 
+# класс модели сообщения в теме
 class TopicMessage(db.Model):
     __tablename__ = 'topics_messages'
 
@@ -160,4 +175,3 @@ class TopicMessage(db.Model):
         self.text = text
         self.topic_id = topic_id
         self.author_id = author_id
-

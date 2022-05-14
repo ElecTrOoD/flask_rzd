@@ -1,7 +1,9 @@
+# Импортируем все зависимости
 import os
 
 from dotenv import load_dotenv
 
+# загружаем переменные окружения
 load_dotenv()
 
 ENV = os.getenv('FLASK_ENV')
