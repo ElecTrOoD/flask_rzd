@@ -4,15 +4,21 @@
 {% endblock %}
 {% block content %}
 
-    <ul class="list-group list-group-numbered mt-3">
+    <div class="input-group flex-nowrap mt-3">
+        <input type="text" class="form-control" placeholder="Поиск" aria-label="search" id="search"
+               aria-describedby="addon-wrapping">
+    </div>
+
+    <ul class="list-group list-group mt-2" id="techmaps">
         {% for tech_map in tech_maps %}
             <li class="list-group-item d-flex justify-content-between">
-                <a class="px-1 link-red text-decoration-none w-100"
+                <a class="tech-map-name px-1 link-red text-decoration-none w-100"
                    href="{{ url_for('main.tech_map_page', tech_id=tech_map.id) }}">
                     {{ tech_map.name }}
                 </a>
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('main.tech_map_delete', tech_id=tech_map.id) }}" class="btn btn-outline-danger btn-circle">
+                    <a href="{{ url_for('main.tech_map_delete', tech_id=tech_map.id) }}"
+                       class="btn btn-outline-danger btn-circle">
                         <i class="fa fa-trash"></i>
                     </a>
                 {% endif %}
@@ -28,5 +34,21 @@
             </a>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block js %}
+    <script>
+        $.expr[":"].contains = $.expr.createPseudo(function (arg) {
+            return function (elem) {
+                return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+            };
+        });
+
+        $('#search').on('keyup', function () {
+            $('li').show();
+            let filter = $(this).val();
+            $('#techmaps').find(".tech-map-name:not(:contains(" + filter + "))").parent().attr("style", "display: none !important");
+        });
+    </script>
 {% endblock %}
 
