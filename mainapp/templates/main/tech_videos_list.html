@@ -53,7 +53,7 @@
         $('#search').on('keyup', function () {
             $('.col').show();
             let filter = $(this).val();
-            $('#videos').find(".card-text:not(:contains(" + filter + "))").parent().parent().parent().parent().css('display', 'none');
+            $('#videos').find(".card-text:not(:contains(" + filter + "))").parents(".col").css('display', 'none');
         });
     </script>
 {% endblock %}
