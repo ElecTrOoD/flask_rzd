@@ -11,6 +11,14 @@
         <div class="col-md-12">
             {% if category.topics %}
                 <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="row align-items-center w-100">
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control" placeholder="Поиск" aria-label="search"
+                                       id="search" aria-describedby="addon-wrapping">
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-header ">
                         <div class="row align-items-center w-100">
                             <div class="col fw-bold ps-3">Тема</div>
@@ -23,11 +31,11 @@
                         </div>
                     </div>
                     {% for topic in category.topics %}
-                        <div class="card-body py-3 border-bottom border-danger">
+                        <div class="card-body py-3 border-bottom border-danger topic">
                             <div class="row align-items-center">
                                 <div class="col">
                                     <a href="{{ url_for('forum.topic', category_title=category.title,
-                                 topic_title=topic.title) }}" class="fw-bold">
+                                 topic_title=topic.title) }}" class="fw-bold topic-name">
                                         {{ topic.title }}
                                     </a>
                                     <div>
@@ -59,12 +67,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {#                                            <div class="ms-3">#}
-                                            {#                                                <a href="{{ url_for('forum.delete_topic', topic_id=topic.id) }}"#}
-                                            {#                                                   class="btn btn-circle btn-outline-danger">#}
-                                            {#                                                    <i class="fa fa-trash"></i>#}
-                                            {#                                                </a>#}
-                                            {#                                            </div>#}
                                         </div>
                                     </div>
                                 </div>
@@ -106,6 +108,18 @@
             }
         }
     </script>
+    <script>
+        $.expr[":"].contains = $.expr.createPseudo(function (arg) {
+            return function (elem) {
+                console.log()
+                return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+            };
+        });
+
+        $('#search').on('keyup', function () {
+            $('.topic').show();
+            let filter = $(this).val();
+            $('.card').find(".topic-name:not(:contains(" + filter + "))").parents(".topic").attr("style", "display: none !important");
+        });
+    </script>
 {% endblock %}
-
-

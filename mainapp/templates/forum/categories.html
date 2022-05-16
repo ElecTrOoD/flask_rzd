@@ -9,16 +9,25 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <div class="row align-items-center w-100">
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control" placeholder="Поиск" aria-label="search"
+                                       id="search" aria-describedby="addon-wrapping">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header">
+                        <div class="row align-items-center w-100">
                             <div class="col fw-bold ps-3">Категория</div>
                             <div class="d-none d-md-block col-sm-2 text-muted">Темы</div>
                         </div>
+
                     </div>
                     {% for category in categories %}
-                        <div class="card-body py-3 border-bottom border-danger">
+                        <div class="card-body py-3 border-bottom border-danger category">
                             <div class="row align-items-center">
                                 <div class="col">
                                     <a href="{{ url_for('forum.topics', category_title=category.title) }}"
-                                       class="fw-bold">
+                                       class="fw-bold category-name">
                                         {{ category.title }}
                                     </a>
                                     <div>
@@ -50,4 +59,21 @@
             </button>
         </a>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $.expr[":"].contains = $.expr.createPseudo(function (arg) {
+            return function (elem) {
+                console.log()
+                return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+            };
+        });
+
+        $('#search').on('keyup', function () {
+            $('.category').show();
+            let filter = $(this).val();
+            $('.card').find(".category-name:not(:contains(" + filter + "))").parents(".category").attr("style", "display: none !important");
+        });
+    </script>
 {% endblock %}
