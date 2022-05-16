@@ -1,6 +1,6 @@
 # импортируем зависимости
-from __main__ import socketio
-# from wsgi import socketio
+# from __main__ import socketio
+from wsgi import socketio
 from datetime import datetime
 
 from flask_socketio import emit
