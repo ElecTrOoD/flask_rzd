@@ -6,12 +6,12 @@
     <div class="row mt-3">
         <div class="col-md-12">
             {% if categories %}
-                <div class="card mb-3">
+                <div class="card mb-3" id="categories">
                     <div class="card-header">
                         <div class="row align-items-center w-100">
                             <div class="input-group flex-nowrap">
                                 <input type="text" class="form-control" placeholder="Поиск" aria-label="search"
-                                       id="search" aria-describedby="addon-wrapping">
+                                       id="search" aria-describedby="addon-wrapping" onkeyup="search('#search', '#categories', '.category', '.category-name')">
                             </div>
                         </div>
                     </div>
@@ -62,18 +62,5 @@
 {% endblock %}
 
 {% block js %}
-    <script>
-        $.expr[":"].contains = $.expr.createPseudo(function (arg) {
-            return function (elem) {
-                console.log()
-                return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-            };
-        });
-
-        $('#search').on('keyup', function () {
-            $('.category').show();
-            let filter = $(this).val();
-            $('.card').find(".category-name:not(:contains(" + filter + "))").parents(".category").attr("style", "display: none !important");
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
 {% endblock %}

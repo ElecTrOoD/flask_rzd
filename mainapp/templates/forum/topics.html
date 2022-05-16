@@ -10,12 +10,13 @@
         </div>
         <div class="col-md-12">
             {% if category.topics %}
-                <div class="card mb-3">
+                <div class="card mb-3" id="topics">
                     <div class="card-header">
                         <div class="row align-items-center w-100">
                             <div class="input-group flex-nowrap">
                                 <input type="text" class="form-control" placeholder="Поиск" aria-label="search"
-                                       id="search" aria-describedby="addon-wrapping">
+                                       id="search" aria-describedby="addon-wrapping"
+                                       onkeyup="search('#search', '#topics', '.topic', '.topic-name')">
                             </div>
                         </div>
                     </div>
@@ -93,6 +94,7 @@
 {% endblock %}
 
 {% block js %}
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
     <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
     <script>
         let dates = {{ dates|safe if dates else 'null' }};
@@ -107,19 +109,5 @@
                 $(objects[i]).text(moment(local_dates[i], 'DD.MM.YY, HH:mm:SS').fromNow())
             }
         }
-    </script>
-    <script>
-        $.expr[":"].contains = $.expr.createPseudo(function (arg) {
-            return function (elem) {
-                console.log()
-                return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-            };
-        });
-
-        $('#search').on('keyup', function () {
-            $('.topic').show();
-            let filter = $(this).val();
-            $('.card').find(".topic-name:not(:contains(" + filter + "))").parents(".topic").attr("style", "display: none !important");
-        });
     </script>
 {% endblock %}
