@@ -9,7 +9,8 @@ from .extensions import db
 from .models import User, ChatMessage
 
 
-# обработчик новых сообщений в чате
+# обработчик новых сообщений в чате. При приёме события 'message' записывает полученное сообщение в базу данных и
+# отправляет это же сообщение всем подключенным пользователям для отображения в чате
 @socketio.on('message')
 def handle_message_event(json, methods=('GET', 'POST')):
     message = ChatMessage(sender=json['sender'], text=json['text'], created_at=datetime.utcnow())

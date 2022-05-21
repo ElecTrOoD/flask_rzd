@@ -1,3 +1,4 @@
+# импортируем зависимости
 from sqlite3 import IntegrityError
 
 from flask import Blueprint, render_template, redirect, url_for
@@ -7,9 +8,11 @@ from mainapp.extensions import db
 from mainapp.forms.forum import CategoryForm, TopicForm, TopicMessageForm
 from mainapp.models import Category, Topic, TopicMessage
 
+# создаем и конфигурируем экземпляр "чертежа" приложения форума
 forum = Blueprint('forum', __name__, url_prefix='/forum', static_folder='../static')
 
 
+# контроллер главной страницы форума, отдает страницу с категориями форума
 @forum.route('/', )
 @login_required
 def categories():
@@ -17,6 +20,7 @@ def categories():
     return render_template('forum/categories.html', categories=category_objects)
 
 
+# контроллер страницы отдельной категории форума, отдает страницу с темами выбранной категории
 @forum.route('/<string:category_title>/', )
 @login_required
 def topics(category_title):
@@ -24,6 +28,7 @@ def topics(category_title):
     return render_template('forum/topics.html', category=category, dates=category.get_dates())
 
 
+# контроллер страницы отдельной темы форума, отдает страницу с сообщениями выбранной темы отдельной категории форума
 @forum.route('/<string:category_title>/t/<string:topic_title>/', )
 @login_required
 def topic(category_title, topic_title):
@@ -32,6 +37,8 @@ def topic(category_title, topic_title):
     return render_template('forum/topic.html', topic=topic_obj, dates=topic_obj.get_dates(), form=form)
 
 
+# контроллер публикации сообщения в теме форума, срабатывает при POST запросе. Принимает и валидирует данные с формы.
+# Если данные валидны, создаёт новое сообщение
 @forum.route('/<string:category_title>/t/<string:topic_title>/', methods=['POST'])
 @login_required
 def topic_post(category_title, topic_title):
@@ -57,6 +64,7 @@ def topic_post(category_title, topic_title):
         return render_template('forum/topic.html', form=form)
 
 
+# контроллер страницы публикации категории форума, отдаёт форму создания категории
 @forum.route('/create', )
 @login_required
 def create_category():
@@ -64,6 +72,8 @@ def create_category():
     return render_template('forum/create_category.html', form=form)
 
 
+# контроллер страницы публикации категории форума, срабатывает при POST запросе. Принимает и валидирует данные с формы.
+# Если данные валидны, создаёт новую категорию
 @forum.route('/create', methods=['POST'])
 @login_required
 def create_category_post():
@@ -91,6 +101,7 @@ def create_category_post():
         return render_template('forum/create_category.html', form=form)
 
 
+# контроллер страницы публикации темы форума, отдаёт форму создания темы
 @forum.route('/<string:category_title>/create', )
 @login_required
 def create_topic(category_title):
@@ -99,6 +110,8 @@ def create_topic(category_title):
     return render_template('forum/create_topic.html', form=form, category=category)
 
 
+# контроллер страницы публикации темы форума, срабатывает при POST запросе. Принимает и валидирует данные с формы.
+# Если данные валидны, создаёт новую тему
 @forum.route('/<string:category_title>/create', methods=['POST'])
 @login_required
 def create_topic_post(category_title):

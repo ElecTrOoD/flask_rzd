@@ -8,7 +8,10 @@ from flask_login import UserMixin
 from mainapp.app import db
 
 
-# класс модели пользователя
+# класс модели пользователя, состоит из 9 столбцов и 2 связанных моделей.
+# столбцы: идентификатор, логин, имя, фамилия, пароль, имя загруженной фотографии,
+#          данные о местоположении (широта, долгота, время последнего обновления)
+# связанные таблицы: созданные темы форума и созданные сообщения в темах форума
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -42,7 +45,7 @@ class User(db.Model, UserMixin):
                 'geo_updated_at': self.geo_updated_at.strftime('%Y-%m-%dT%H:%M:%SZ')}
 
 
-# класс модели технологической карты
+# класс модели технологической карты, состоит из 3 столбцов: идентификатор, название, имя загруженного PDF-файла
 class TechMap(db.Model):
     __tablename__ = 'techmaps'
 
@@ -51,7 +54,8 @@ class TechMap(db.Model):
     pdf = db.Column(db.String(255), unique=True)
 
 
-# класс модели обучающего видео
+# класс модели обучающего видео, состоит из 4 столбцов: идентификатор, название, ссылка на видео,
+#                                                       ссылка на картинку превью видео
 class VideoTutorial(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True)
@@ -94,7 +98,7 @@ class VideoTutorial(db.Model):
             return f'{youtube}{new_val}'
 
 
-# класс модели сообщения в чате
+# класс модели сообщения в чате, состоит из 4 столбцов: идентификатор, отправитель, текст сообщения, дата создания
 class ChatMessage(db.Model):
     __tablename__ = 'messages'
 
@@ -115,7 +119,9 @@ class ChatMessage(db.Model):
                 for x in messages[-100:]]
 
 
-# класс модели категории форума
+# класс модели категории форума, состоит из 3 столбцов и 1 связанной таблицы
+# столбцы: идентификатор, название, описание
+# связанная таблица: все темы данной категории
 class Category(db.Model):
     __tablename__ = 'categories'
 
@@ -134,7 +140,9 @@ class Category(db.Model):
         return [x.messages[-1].created_at.strftime('%Y-%m-%dT%H:%M:%SZ') for x in self.topics]
 
 
-# класс модели темы в категории
+# класс модели темы в категории, состоит из 3 столбцов и 3 связанных таблиц
+# столбцы: идентификатор, название, описание
+# связанные таблицы: автор темы, категория темы, все сообщения в теме
 class Topic(db.Model):
     __tablename__ = 'topics'
 
@@ -159,7 +167,9 @@ class Topic(db.Model):
         return [x.created_at.strftime('%Y-%m-%dT%H:%M:%SZ') for x in self.messages]
 
 
-# класс модели сообщения в теме
+# класс модели сообщения в теме, состоит из 3 столбцов и 2 связанных таблиц
+# столбцы: идентификатор, текст сообщения, дата создания
+# связанные таблицы: автор сообщения, тема к которой принадлежит сообщение
 class TopicMessage(db.Model):
     __tablename__ = 'topics_messages'
 
