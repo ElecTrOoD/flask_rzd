@@ -5,16 +5,16 @@
 
 {% block content %}
     <div class="container-map">
-        <div id="map"><div class="center-screen">Map loading...</div></div>
+        <div id="map">
+            <div class="center-screen" id="placeholder">Map loading...</div>
+        </div>
     </div>
 {% endblock %}
 
 
 {% block js %}
-    <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABtN8sBZ1kGYeGJMKiKfgiQ-pww6XPS7Y&callback=initMap&v=weekly"
-            async
-    ></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=73e94ef0-6879-434b-ab8e-24acef4da2a3&lang=ru_RU" type="text/javascript">
+    </script>
     <script type="text/javascript">
         let users = {{ map_info|safe if map_info else 'null'}};
     </script>
