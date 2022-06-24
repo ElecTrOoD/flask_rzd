@@ -19,8 +19,9 @@ function init() {
         let newUserPlacemark = new ymaps.Placemark([user.geo_lat, user.geo_long], {
             balloonContentHeader: user.first_name + ' ' + user.last_name,
             balloonContentBody: normalize_date(user.geo_updated_at),
+            hintContent: user.username
         }, {
-            preset: 'islands#redRailwayIcon'
+            preset: 'islands#redPersonIcon'
         });
 
         map.geoObjects.add(newUserPlacemark);

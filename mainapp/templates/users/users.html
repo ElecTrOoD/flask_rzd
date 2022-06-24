@@ -24,7 +24,7 @@
                             <tbody>
                             {% for user in users %}
                                 <tr>
-                                    <td>{{ user.id }}</td>
+                                    <td><b>{{ loop.index }}</b></td>
                                     <td class="col-1">
                                         <div class="box">
                                             <img src="{{ url_for('users.get_photo', filename=user.photo)
